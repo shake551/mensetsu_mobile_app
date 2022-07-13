@@ -37,11 +37,11 @@ class LoginApp extends StatelessWidget {
               children: <Widget>[
                 TextFormField(
                   decoration: const InputDecoration(
-                    labelText: 'UserId',
-                    hintText: 'ユーザIDを入力してください',
+                    labelText: 'UserName',
+                    hintText: 'ユーザ名を入力してください',
                   ),
                   validator: context.read<LoginModel>().emptyValidator,
-                  onSaved: (value) => context.read<LoginModel>().id = value!,
+                  onSaved: (value) => context.read<LoginModel>().username = value!,
                 ),
                 TextFormField(
                   obscureText: !context.watch<LoginModel>().showPassword,
@@ -82,9 +82,13 @@ class LoginApp extends StatelessWidget {
                           _formKey.currentState!.save();
 
                           var response =
-                              await context.read<LoginModel>().auth();
+                              await context.read<LoginModel>()
+                                  .auth(
+                                  context.read<LoginModel>().username,
+                                  context.read<LoginModel>().password,
+                              );
 
-                          if (response) {
+                          if (response.statusCode == 200) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -100,7 +104,7 @@ class LoginApp extends StatelessWidget {
                           } else {
                             context
                                 .read<LoginModel>()
-                                .setMessage('パスワードが誤っています');
+                                .setMessage('ユーザー名またはパスワードが誤っています');
                           }
                         }
                       },

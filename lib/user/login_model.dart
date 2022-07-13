@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:http/src/response.dart';
 import 'package:mensetsu_mobile_app/api/auth.dart';
 
 class LoginModel extends ChangeNotifier {
   final AuthRepository repository;
-  String id = '';
+  String username = '';
   String password = '';
   String message = '';
   bool showPassword = false;
@@ -27,8 +28,8 @@ class LoginModel extends ChangeNotifier {
     return null;
   }
 
-  Future<bool> auth() async {
-    var results = await repository.auth();
+  Future<Response> auth(String username, String password) async {
+    var results = await repository.auth(username, password);
     return results;
   }
 }
