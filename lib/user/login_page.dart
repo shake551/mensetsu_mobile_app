@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mensetsu_mobile_app/interview/home.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -54,7 +55,14 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Center(
                 child: ElevatedButton(
-                    onPressed: () {}, child: const Text('Login')),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => InterviewHome()),
+                      );
+                    },
+                    child: const Text('Login'),
+                ),
               ),
             ],
           ),
