@@ -34,14 +34,15 @@ class LoginApp extends StatelessWidget {
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+              children: [
                 TextFormField(
                   decoration: const InputDecoration(
                     labelText: 'UserName',
                     hintText: 'ユーザ名を入力してください',
                   ),
                   validator: context.read<LoginModel>().emptyValidator,
-                  onSaved: (value) => context.read<LoginModel>().username = value!,
+                  onSaved: (value) =>
+                      context.read<LoginModel>().username = value!,
                 ),
                 TextFormField(
                   obscureText: !context.watch<LoginModel>().showPassword,
@@ -81,11 +82,9 @@ class LoginApp extends StatelessWidget {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
 
-                          var response =
-                              await context.read<LoginModel>()
-                                  .auth(
-                                  context.read<LoginModel>().username,
-                                  context.read<LoginModel>().password,
+                          var response = await context.read<LoginModel>().auth(
+                                context.read<LoginModel>().username,
+                                context.read<LoginModel>().password,
                               );
 
                           if (response.statusCode == 200) {
@@ -111,7 +110,7 @@ class LoginApp extends StatelessWidget {
                       child: const Text('ログイン'),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
