@@ -1,4 +1,3 @@
-
 class InterviewModel {
   final int id;
   final String content, created_at, updated_at;
