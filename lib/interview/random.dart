@@ -113,7 +113,10 @@ class _InterviewCardListState extends State<InterviewCardList> {
   Future<void> getData() async {
     var response = await InterviewRepository().obtainRandomInterview();
 
-    List jsonResponse = json.decode(utf8.decode(response.bodyBytes)).map((i) => InterviewModel.fromJson(i)).toList();
+    List jsonResponse = json
+        .decode(utf8.decode(response.bodyBytes))
+        .map((i) => InterviewModel.fromJson(i))
+        .toList();
 
     setState(() {
       interviewData = jsonResponse;
