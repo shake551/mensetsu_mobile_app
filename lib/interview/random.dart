@@ -21,10 +21,12 @@ class RandomInterview extends StatelessWidget {
 class InterviewCard extends StatefulWidget {
   final String text;
   final Color color;
+  final bool isLast;
 
   const InterviewCard({
     required this.text,
     required this.color,
+    required this.isLast,
   });
 
   @override
@@ -43,6 +45,24 @@ class _InterviewCardState extends State<InterviewCard>
         _isBookmarked = true;
       }
     });
+  }
+
+  Widget _finishButton(bool isLast) {
+    if (isLast) {
+      return ElevatedButton(
+        onPressed: () {},
+        child: Text('終了'),
+      );
+    } else {
+      return ElevatedButton(
+        child: null,
+        style: ElevatedButton.styleFrom(
+          elevation: 0,
+          primary: Colors.transparent,
+        ),
+        onPressed: (){},
+      );
+    }
   }
 
   @override
@@ -84,6 +104,9 @@ class _InterviewCardState extends State<InterviewCard>
               // color: Colors.red[500],
               onPressed: _toggleBookmark,
             ),
+          ),
+          Center(
+            child: _finishButton(widget.isLast),
           ),
         ],
       ),
@@ -143,8 +166,9 @@ class _InterviewCardListState extends State<InterviewCardList> {
               InterviewCard(
                 text: interviewData[i].content,
                 color: widget.colors[i],
+                isLast: i == interviewData.length - 1,
               ),
-            }
+            },
           ],
         ),
       ),
