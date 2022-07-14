@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:mensetsu_mobile_app/api/interview.dart';
+import 'package:mensetsu_mobile_app/interview/model.dart';
 
 class RandomInterview extends StatelessWidget {
   @override
@@ -9,36 +13,7 @@ class RandomInterview extends StatelessWidget {
         backgroundColor: Colors.orange,
       ),
       backgroundColor: Colors.orangeAccent,
-      body: Center(
-        child: SizedBox(
-          height: 600,
-          child: PageView(
-            controller: PageController(viewportFraction: 0.7),
-            children: const [
-              InterviewCard(
-                text: 'これまで開発してきたもので一番自信があるものはなんですか',
-                color: Colors.blue,
-              ),
-              InterviewCard(
-                text: '使用した技術を選んだ理由はなんですか',
-                color: Colors.green,
-              ),
-              InterviewCard(
-                text: 'こだわったポイントはどこですか',
-                color: Colors.yellow,
-              ),
-              InterviewCard(
-                text: '一番難しかったことはなんですか',
-                color: Colors.pink,
-              ),
-              InterviewCard(
-                text: '今後改善したいところはありますか',
-                color: Colors.deepPurpleAccent,
-              ),
-            ],
-          ),
-        ),
-      ),
+      body: InterviewCardList(),
     );
   }
 }
@@ -56,7 +31,8 @@ class InterviewCard extends StatefulWidget {
   State<InterviewCard> createState() => _InterviewCardState();
 }
 
-class _InterviewCardState extends State<InterviewCard> with AutomaticKeepAliveClientMixin<InterviewCard> {
+class _InterviewCardState extends State<InterviewCard>
+    with AutomaticKeepAliveClientMixin<InterviewCard> {
   bool _isBookmarked = false;
 
   void _toggleBookmark() {
@@ -116,4 +92,59 @@ class _InterviewCardState extends State<InterviewCard> with AutomaticKeepAliveCl
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class InterviewCardList extends StatefulWidget {
+  var colors = [
+    Colors.blue,
+    Colors.green,
+    Colors.yellow,
+    Colors.pink,
+    Colors.deepPurpleAccent
+  ];
+
+  @override
+  State<InterviewCardList> createState() => _InterviewCardListState();
+}
+
+class _InterviewCardListState extends State<InterviewCardList> {
+  List interviewData = [];
+
+  Future<void> getData() async {
+    var response = await InterviewRepository().obtainRandomInterview();
+
+    List jsonResponse = json.decode(utf8.decode(response.bodyBytes)).map((i) => InterviewModel.fromJson(i)).toList();
+
+    setState(() {
+      interviewData = jsonResponse;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print(interviewData);
+    return Center(
+      child: SizedBox(
+        height: 600,
+        child: PageView(
+          controller: PageController(viewportFraction: 0.7),
+          children: [
+            for (int i = 0; i < interviewData.length; i++) ...{
+              InterviewCard(
+                text: interviewData[i].content,
+                color: widget.colors[i],
+              ),
+            }
+          ],
+        ),
+      ),
+    );
+  }
 }
