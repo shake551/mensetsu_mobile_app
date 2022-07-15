@@ -22,11 +22,13 @@ class RandomInterview extends StatelessWidget {
 class InterviewCard extends StatefulWidget {
   final String text;
   final Color color;
+  final int interviewId;
   final bool isLast;
 
   const InterviewCard({
     required this.text,
     required this.color,
+    required this.interviewId,
     required this.isLast,
   });
 
@@ -38,14 +40,21 @@ class _InterviewCardState extends State<InterviewCard>
     with AutomaticKeepAliveClientMixin<InterviewCard> {
   bool _isBookmarked = false;
 
-  void _toggleBookmark() {
-    setState(() {
-      if (_isBookmarked) {
+  void _toggleBookmark() async {
+    if (_isBookmarked) {
+      setState(() {
         _isBookmarked = false;
-      } else {
-        _isBookmarked = true;
+      });
+    } else {
+      var response =
+          await InterviewRepository().bookmarkInterview(widget.interviewId);
+
+      if (response.statusCode == 200) {
+        setState(() {
+          _isBookmarked = true;
+        });
       }
-    });
+    }
   }
 
   Widget _finishButton(bool isLast) {
@@ -174,6 +183,7 @@ class _InterviewCardListState extends State<InterviewCardList> {
               InterviewCard(
                 text: interviewData[i].content,
                 color: widget.colors[i],
+                interviewId: interviewData[i].id,
                 isLast: i == interviewData.length - 1,
               ),
             },
