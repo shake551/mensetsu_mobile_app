@@ -24,4 +24,20 @@ class InterviewRepository {
 
     return result;
   }
+
+  Future<http.Response> deleteBookmarkInterview(int interviewId) {
+    final body = jsonEncode({
+      'interview_id': interviewId,
+    });
+
+    final result = http.delete(
+      Uri.http('10.0.2.2:8000', 'interview/bookmark'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: body,
+    );
+
+    return result;
+  }
 }

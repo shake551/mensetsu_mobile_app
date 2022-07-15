@@ -42,9 +42,14 @@ class _InterviewCardState extends State<InterviewCard>
 
   void _toggleBookmark() async {
     if (_isBookmarked) {
-      setState(() {
-        _isBookmarked = false;
-      });
+      var response =
+      await InterviewRepository().deleteBookmarkInterview(widget.interviewId);
+
+      if (response.statusCode == 200) {
+        setState(() {
+          _isBookmarked = false;
+        });
+      }
     } else {
       var response =
           await InterviewRepository().bookmarkInterview(widget.interviewId);
