@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mensetsu_mobile_app/api/auth.dart';
-import 'package:mensetsu_mobile_app/test.dart';
+import 'package:mensetsu_mobile_app/interview/home.dart';
 import 'package:mensetsu_mobile_app/user/login_model.dart';
 import 'package:provider/provider.dart';
 
@@ -91,7 +91,7 @@ class LoginApp extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => TestPage(),
+                                builder: (context) => InterviewHome(),
                               ),
                             );
 
