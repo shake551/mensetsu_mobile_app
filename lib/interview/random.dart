@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:mensetsu_mobile_app/api/interview.dart';
+import 'package:mensetsu_mobile_app/interview/home.dart';
 import 'package:mensetsu_mobile_app/interview/model.dart';
 
 class RandomInterview extends StatelessWidget {
@@ -50,8 +51,15 @@ class _InterviewCardState extends State<InterviewCard>
   Widget _finishButton(bool isLast) {
     if (isLast) {
       return ElevatedButton(
-        onPressed: () {},
-        child: Text('終了'),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => InterviewHome(),
+            ),
+          );
+        },
+        child: const Text('終了'),
       );
     } else {
       return ElevatedButton(
@@ -60,7 +68,7 @@ class _InterviewCardState extends State<InterviewCard>
           elevation: 0,
           primary: Colors.transparent,
         ),
-        onPressed: (){},
+        onPressed: () {},
       );
     }
   }
