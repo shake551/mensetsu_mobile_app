@@ -46,4 +46,20 @@ class InterviewRepository {
 
     return result;
   }
+
+  Future<http.Response> postInterview(String content) {
+    final body = jsonEncode({
+      'content': content,
+    });
+
+    final result = http.post(
+      Uri.http('10.0.2.2:8000', 'interview'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: body,
+    );
+
+    return result;
+  }
 }
