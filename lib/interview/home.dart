@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mensetsu_mobile_app/interview/marked.dart';
 import 'package:mensetsu_mobile_app/interview/random.dart';
 
 class InterviewHome extends StatelessWidget {
@@ -74,7 +75,7 @@ class InterviewHome extends StatelessWidget {
                 Icons.heart_broken,
                 size: 50,
               ),
-              RandomInterview(),
+              MarkedInterview(),
             ),
           ),
           Center(
