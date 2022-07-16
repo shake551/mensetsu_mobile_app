@@ -40,4 +40,10 @@ class InterviewRepository {
 
     return result;
   }
+
+  Future<http.Response> obtainMarkedInterview() {
+    final result = http.get(Uri.http('10.0.2.2:8000', 'interview/bookmark'));
+
+    return result;
+  }
 }
