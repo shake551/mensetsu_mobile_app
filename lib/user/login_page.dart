@@ -1,8 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mensetsu_mobile_app/api/auth.dart';
 import 'package:mensetsu_mobile_app/interview/home.dart';
 import 'package:mensetsu_mobile_app/user/login_model.dart';
+import 'package:mensetsu_mobile_app/user/token_model.dart';
 import 'package:provider/provider.dart';
+
+const storage = FlutterSecureStorage();
 
 class LoginPage extends StatelessWidget {
   @override
@@ -87,7 +93,17 @@ class LoginApp extends StatelessWidget {
                                 context.read<LoginModel>().password,
                               );
 
+                          var jsonResponse = TokenModel.fromJson(
+                              json.decode(utf8.decode(response.bodyBytes)));
+
                           if (response.statusCode == 200) {
+
+                            await storage.write(key: 'access_token', value: jsonResponse.access_token);
+
+                            final String? access_token = await storage.read(key: 'access_token');
+
+                            print(access_token);
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
